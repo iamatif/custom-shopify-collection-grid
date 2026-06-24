@@ -1,0 +1,851 @@
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
+{% style %}
+@import url('https://fonts.googleapis.com/css2?family=Quantico:wght@400;700&family=Instrument+Sans:wght@400;500;600;700&display=swap');
+
+:root {
+  --neon-color: {{ section.settings.neon_color }};
+}
+
+.section-{{ section.id }} {
+  padding-top: {{ section.settings.padding_top_desktop }}px;
+  padding-bottom: {{ section.settings.padding_bottom_desktop }}px;
+  background-color: #fff;
+}
+
+.tactical-container {
+  margin: 0 auto;
+  padding: 0 20px 50px;
+  background: #f2f2f2;
+}
+
+.sub-tabs-list {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  margin-bottom: 40px;
+  overflow-x: auto;
+  padding: 10px;
+}
+
+.sub-tab-link {
+  text-decoration: none;
+  text-align: center;
+  width: 100px;
+  flex-shrink: 0;
+}
+
+.tab-circle {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  border: 2px solid #eee;
+  padding: 4px;
+  transition: 0.3s;
+  object-fit: cover;
+  margin-bottom: 10px;
+}
+
+.sub-tab-link.active .tab-circle {
+  border-color: var(--neon-color);
+  transform: translateY(-5px);
+}
+
+.tab-label {
+  font-family: 'Quantico', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #000;
+  line-height: 20px;
+  display: block;
+}
+
+.collection-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid #eee;
+  border-bottom: 1px solid #eee;
+  padding: 20px 0;
+  margin-bottom: 30px;
+  width: 100%;
+}
+
+.grid-switcher {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.view-btn {
+  background: none;
+  border: 1px solid #ddd;
+  padding: 6px;
+  cursor: pointer;
+  display: flex;
+  gap: 2px;
+  align-items: center;
+}
+
+.view-btn span {
+  background: #ddd;
+  height: 16px;
+  width: 5px;
+  border-radius: 1px;
+  display: block;
+}
+
+.view-btn.active {
+  border-color: #000;
+}
+
+.view-btn.active span {
+  background: #000;
+}
+
+.view-btn.grid-1 span {
+  width: 15px;
+}
+
+.view-btn.grid-list {
+  flex-direction: column;
+}
+
+.view-btn.grid-list span {
+  width: 18px;
+  height: 4px;
+}
+
+.sorting-box {
+  display: flex;
+  align-items: flex-start;
+  border: 1px solid #000;
+  padding: 5px 15px;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.sorting-box label {
+  font-size: 10px;
+  font-weight: 800;
+  padding-left: 4px;
+}
+
+.sorting-box select,
+.sorting-box select option {
+  border: none;
+  font-family: 'Instrument Sans', sans-serif;
+  font-weight: 700;
+  outline: none;
+  cursor: pointer;
+  background: #f2f2f2;
+}
+
+select#SortBy:focus {
+  box-shadow: none;
+  outline: none;
+}
+
+.product-count {
+  color: black;
+  font-weight: 700;
+}
+
+.collection-layout {
+  display: flex;
+  gap: 40px;
+}
+
+.collection-sidebar {
+  width: 280px;
+  flex-shrink: 0;
+  position: sticky;
+  top: 20px;
+}
+
+.filter-group {
+  border-bottom: 1px solid #eee;
+  padding: 20px 0;
+}
+
+.filter-group#Group-5 {
+  display: none !important;
+}
+
+.filter-title {
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  text-transform: capitalize;
+  margin-bottom: 15px;
+  display: flex;
+  justify-content: space-between;
+  color: black;
+}
+
+.filter-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.filter-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.filter-item input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 25px;
+  height: 25px;
+  border: 1.18px solid black;
+  border-radius: 50%;
+  cursor: pointer;
+  position: relative;
+}
+
+.filter-item input[type="checkbox"]:checked {
+  background-color: #D5FE3E;
+}
+
+.filter-item input[type="checkbox"]:checked::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 14px;
+  height: 10px;
+  transform: translate(-50%, -50%);
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-image: url("data:image/svg+xml;utf8,<svg width='18' height='13' viewBox='0 0 18 13' xmlns='http://www.w3.org/2000/svg'><path fill='black' d='M17.3217 0.344963C17.7816 0.804913 17.7816 1.55064 17.3217 2.0106L6.72171 12.6106C6.26175 13.0705 5.51603 13.0705 5.05607 12.6106L0.344963 7.89949C-0.114988 7.43953 -0.114988 6.69381 0.344963 6.23385C0.804913 5.7739 1.55064 5.7739 2.0106 6.23385L5.88889 10.1122L15.6561 0.344963C16.116 -0.114988 16.8618 -0.114988 17.3217 0.344963Z'/></svg>");
+}
+
+.price-range-wrapper {
+  display: flex;
+  gap: 0px;
+  align-items: baseline;
+  flex-direction: column;
+  justify-content: center;
+  color: black;
+}
+
+.price-range-wrapper input {
+  width: 100%;
+  border: 1px solid #F0F0F0;
+  padding: 12px;
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 12px;
+  background: #F0F0F0;
+  border-radius: 8px;
+}
+
+.filter-group:nth-child(3) .filter-list {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+.filter-group:nth-child(3) .filter-item input[type="checkbox"] {
+  display: none !important;
+}
+
+.filter-group:nth-child(3) .filter-item label {
+  display: block;
+  width: 100%;
+  padding: 12px 20px;
+  border: 1px solid #d2d2d2;
+  border-radius: 8px;
+  text-align: center;
+  font-family: 'Instrument Sans', sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background-color: #fff;
+  color: #000;
+}
+
+.filter-group:nth-child(3) .filter-item label:hover {
+  border-color: #000;
+  background-color: #f9f9f9;
+}
+
+.filter-group:nth-child(3) .filter-item input:checked + label {
+  border-color: #000;
+  border-width: 1.5px;
+  background-color: #f4f4f4;
+  font-weight: 700;
+}
+
+.filter-group:last-child .filter-list {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  gap: 10px;
+}
+
+.color-checkbox {
+  display: none !important;
+}
+
+.filter-label-color {
+  display: inline-block !important;
+  cursor: pointer;
+  font-size: 0;
+}
+
+.color-swatch-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 2px solid #ddd;
+  display: block;
+  transition: all 0.2s ease;
+  background-position: center;
+}
+
+.color-checkbox:checked + .filter-label-color .color-swatch-btn {
+  border-color: #000;
+  box-shadow: 0 0 0 2px #fff, 0 0 0 4px var(--neon-color);
+  transform: scale(1.1);
+}
+
+.tactical-tooltip-trigger {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tactical-tooltip-text {
+  visibility: hidden;
+  opacity: 0;
+  background-color: #000;
+  color: #fff;
+  text-align: center;
+  padding: 6px 12px;
+  border-radius: 2px;
+  position: absolute;
+  z-index: 9999;
+  bottom: 140%;
+  left: 50%;
+  transform: translateX(-50%) translateY(10px);
+  transition: all 0.2s ease-in-out;
+  font-family: 'Quantico', sans-serif;
+  font-size: 10px;
+  text-transform: uppercase;
+  white-space: nowrap;
+  pointer-events: none;
+  letter-spacing: 1px;
+  box-shadow: 0px 4px 10px rgba(0,0,0,0.3);
+}
+
+.tactical-tooltip-text::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #000 transparent transparent transparent;
+}
+
+.tactical-tooltip-trigger:hover .tactical-tooltip-text {
+  visibility: visible;
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+.filter-group:has(.is-color-grid) .filter-content-container {
+  overflow: visible !important;
+  max-height: none !important;
+}
+
+.filter-content-container {
+  max-height: 300px;
+  overflow: hidden;
+  transition: max-height 0.4s ease;
+  position: relative;
+}
+
+.filter-group.is-expanded .filter-content-container {
+  max-height: 2000px !important;
+}
+
+.show-more-trigger {
+  padding: 10px 0;
+  cursor: pointer;
+}
+
+.trigger-label {
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  color: #000;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.collection-main {
+  flex-grow: 1;
+}
+
+.product-grid {
+  display: grid;
+  gap: 25px;
+  transition: 0.3s ease;
+}
+
+.product-grid.cols-4 { grid-template-columns: repeat(4, 1fr); }
+.product-grid.cols-3 { grid-template-columns: repeat(3, 1fr); }
+.product-grid.cols-2 { grid-template-columns: repeat(2, 1fr); }
+.product-grid.cols-1 { grid-template-columns: 1fr; max-width: 500px; }
+
+.product-grid.view-list {
+  grid-template-columns: 1fr;
+}
+
+.product-grid.view-list .product-card {
+  flex-direction: row;
+  align-items: center;
+  gap: 40px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #eee;
+}
+
+.product-grid.view-list .card-image-wrap {
+  width: 280px;
+  padding: 10% !important;
+  margin-bottom: 0;
+  flex-shrink: 0;
+}
+
+.product-card {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  height: 100%;
+  background: white;
+  padding: 20px;
+}
+
+.product-card a {
+  text-decoration: none !important;
+}
+
+.card-image-wrap {
+  background: #f8f8f8;
+  padding-top: 100%;
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 15px;
+}
+
+.card-image-wrap img {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transition: 0.6s ease;
+  background: white;
+}
+
+.card-body {
+  padding: 0px 0px 20px 0px;
+}
+
+.product-type {
+  font-size: 16px !important;
+  color: #979696 !important;
+  margin: 0;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-family: 'Quantico';
+}
+
+.product-title {
+  margin-bottom: 3px;
+}
+
+.product-price {
+  color: black;
+}
+
+.shop-now-btn {
+  display: block;
+  width: fit-content;
+  background-color: #000;
+  color: #D5FE3E;
+  padding: 12px 35px;
+  border-radius: 50px;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 13px;
+  text-transform: uppercase;
+  transition: 0.3s ease;
+  border: 1px solid var(--neon-color);
+  margin-top: 15px;
+}
+
+.product-card:hover .shop-now-btn {
+  background-color: #D5FE3E;
+  color: #000;
+  border-color: #D5FE3E;
+}
+
+.product-card__swatch-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 12px 0;
+}
+
+.swatch-item {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 1px solid #e2e2e2;
+  cursor: pointer;
+  display: inline-block;
+  background-size: cover;
+  background-position: center;
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.swatch-item.active {
+  border: 2px solid #000;
+  transform: scale(1.1);
+}
+
+.swatch-item:hover {
+  transform: scale(1.1);
+  border-color: #999;
+}
+
+.color-swatch-btn.color-black { background-color: #000000 !important; }
+.color-swatch-btn.color-navy, .color-swatch-btn.color-navy-blue { background-color: #1b2138 !important; }
+.color-swatch-btn.color-army-green { background-color: #79997c !important; }
+.color-swatch-btn.color-gunmetal-gray, .color-swatch-btn.color-gunmetal-grey { background-color: #a0a0a0 !important; }
+.color-swatch-btn.color-desert-khaki { background-color: #c3b091 !important; }
+.color-swatch-btn.color-safety-green { background-color: #ccff00 !important; }
+.color-swatch-btn.color-bright-orange { background-color: #ff6700 !important; }
+
+.color-swatch-desert-khaki { background-color: #C2B280 !important; }
+.color-swatch-tan { background-color: #d1bd91 !important; }
+.color-swatch-camo { background-color: #b09761 !important; }
+.color-swatch-navy-blue { background-color: #3a668a !important; }
+.color-swatch-khaki { background-color: #F0E68C !important; }
+.color-swatch-gunmetal-gray { background-color: #a0a0a0 !important; }
+.color-swatch-army-green { background-color: #79997c !important; }
+.color-swatch-safety-orange { background-color: #ff8900 !important; }
+.color-swatch-bright-orange { background-color: #b94309 !important; }
+.color-swatch-safety-green { background-color: #7ed212 !important; }
+
+.drawer-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 1000;
+  opacity: 0;
+  visibility: hidden;
+  transition: 0.3s;
+}
+
+.drawer-overlay.is-active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.sidebar-header-mobile {
+  display: none;
+}
+
+.mobile-filter-trigger {
+  display: none;
+}
+
+.swiper-free-mode > .swiper-wrapper {
+  transition-timing-function: ease-out;
+  margin: 0 auto !important;
+  justify-content: center;
+  align-items: center;
+  padding: 20px 0px;
+}
+
+@media (max-width: 1024px) {
+  .collection-layout {
+    flex-direction: column;
+  }
+  .collection-sidebar {
+    position: fixed;
+    top: 0;
+    left: -350px;
+    width: 320px;
+    height: 100vh;
+    background: #fff;
+    z-index: 1001;
+    padding: 30px 20px;
+    transition: 0.4s ease;
+    overflow-y: auto;
+    display: block !important;
+  }
+  .collection-sidebar.is-active {
+    left: 0;
+  }
+  .mobile-filter-trigger {
+    display: block;
+    background: #000;
+    color: #fff;
+    padding: 10px 20px;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    cursor: pointer;
+  }
+  .sidebar-header-mobile {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+  }
+  .close-drawer {
+    font-size: 20px;
+    cursor: pointer;
+    font-weight: 800;
+  }
+}
+
+@media (max-width: 768px) {
+  .grid-switcher, .product-count {
+    display: none;
+  }
+  .product-grid.cols-4, .product-grid.cols-3 {
+    grid-template-columns: repeat(1, 1fr);
+  }
+  .filter-group:nth-child(3) .filter-list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 400px) {
+  .product-grid.cols-4, .product-grid.cols-3, .product-grid.cols-2 {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}
+{% endstyle %}
+
+<div class="section-{{ section.id }}" id="TacticalCollectionSection">
+  <div class="tactical-container">
+    
+    {% if collection.metafields.custom.sub_collections.value != blank %}
+      <div class="sub-tabs-list swiper">
+        <div class="swiper-wrapper">
+          {% for sub_coll in collection.metafields.custom.sub_collections.value %}
+            <div class="swiper-slide" style="width: auto;">
+              <a href="{{ sub_coll.url }}" class="sub-tab-link {% if collection.handle == sub_coll.handle %}active{% endif %}">
+                <div class="tab-circle-wrapper">
+                  {% if sub_coll.featured_image != blank %}
+                    <img src="{{ sub_coll.featured_image | img_url: '200x200', crop: 'center' }}" class="tab-circle" alt="{{ sub_coll.title }}">
+                  {% else %}
+                    {{ 'image' | placeholder_svg_tag: 'tab-circle' }}
+                  {% endif %}
+                </div>
+                <span class="tab-label">{{ sub_coll.title }}</span>
+              </a>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    {% endif %}
+
+    <div class="collection-toolbar">
+      <div class="product-count"><strong>{{ collection.products_count }}</strong> Products</div>
+
+      <div class="grid-switcher">
+        <button class="view-btn grid-1" onclick="switchGrid('cols-1', this)"><span></span></button>
+        <button class="view-btn" onclick="switchGrid('cols-2', this)"><span></span><span></span></button>
+        <button class="view-btn" onclick="switchGrid('cols-3', this)"><span></span><span></span><span></span></button>
+        <button class="view-btn active" onclick="switchGrid('cols-4', this)"><span></span><span></span><span></span><span></span></button>
+        <button class="view-btn grid-list" onclick="switchGrid('view-list', this)"><span></span><span></span></button>
+      </div>
+
+      <div class="sorting-box">
+        <label>SORT BY:</label>
+        <select id="SortBy">
+          {% for option in collection.sort_options %}
+            <option value="{{ option.value }}" {% if option.value == collection.sort_by %}selected{% endif %}>{{ option.name }}</option>
+          {% endfor %}
+        </select>
+      </div>
+    </div>
+
+    <div class="collection-layout">
+      <main class="collection-main">
+        <div class="product-grid cols-4" id="ProductGridContainer">
+          {% paginate collection.products by section.settings.products_per_page %}
+            {% for product in collection.products %}
+              <div class="product-card" data-product-id="{{ product.id }}">
+                <div class="card-image-wrap">
+                  <a href="{{ product.url }}" class="card-image-link">
+                    <img 
+                      src="{{ product.featured_image | img_url: '700x' }}" 
+                      class="primary-img main-product-image" 
+                      alt="{{ product.title }}"
+                      loading="lazy"
+                    >
+                  </a>
+                </div>
+                
+                <div class="card-body">
+                  <a href="{{ product.url }}"><h3 class="product-title">{{ product.title }}</h3></a>
+                  <a href="{{ product.url }}"><p class="product-type">{{ collection.title }}</p></a>
+
+                  {%- liquid assign variant_option_name = 'Color' -%}
+
+                  {%- for option in product.options_with_values -%}
+                    {%- if option.name == variant_option_name -%}
+                      {%- if option.values.size > 1 -%} 
+                        <div class="product-card__swatch-list">
+                          {%- for value in option.values -%}
+                            {%- liquid
+                              assign variant_for_value = product.variants | where: "option1", value | first
+                              if variant_for_value == nil
+                                assign variant_for_value = product.variants | where: "option2", value | first
+                              endif
+                              if variant_for_value == nil
+                                assign variant_for_value = product.variants | where: "option3", value | first
+                              endif
+                              assign variant_img = variant_for_value.featured_media | img_url: '700x'
+                              assign simple_color = value | split: ' ' | last | handle
+                            -%}
+                            <div class="swatch-item color-swatch-{{ value | handle }}" 
+                                title="{{ value }}" 
+                                data-variant-img="{{ variant_img }}"
+                                style="background-color: {{ simple_color }};">
+                            </div>
+                          {%- endfor -%}
+                        </div>
+                      {%- endif -%}
+                    {%- endif -%}
+                  {%- endfor -%}
+
+                  <a href="{{ product.url }}"><div class="product-price" style="font-weight:700; margin:10px 0;">{{ product.price | money }}</div></a>
+                  <a href="{{ product.url }}" class="shop-now-btn">VIEW ITEM</a>
+                </div>
+              </div>
+            {% endfor %}
+          {% endpaginate %}
+        </div>
+      </main>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    new Swiper('.sub-tabs-list', {
+      slidesPerView: 'auto',
+      spaceBetween: 30,
+      loop: true,
+      grabCursor: true,
+      autoplay: {
+        delay: 0,
+        disableOnInteraction: false,
+      },
+      speed: 3000,
+      freeMode: true,
+      freeModeMomentum: false,
+    });
+
+    initProductSwatches();
+    initSorting();
+  });
+
+  function initSorting() {
+    const sortSelect = document.getElementById('SortBy');
+    if (sortSelect) {
+      sortSelect.addEventListener('change', function(e) {
+        const url = new URL(window.location.href);
+        url.searchParams.set('sort_by', e.target.value);
+        url.searchParams.delete('page'); 
+        window.location.href = url.href;
+      });
+    }
+  }
+
+  function switchGrid(layoutClass, btn) {
+    const grid = document.getElementById('ProductGridContainer');
+    if (grid) {
+      grid.className = 'product-grid ' + layoutClass;
+      document.querySelectorAll('.view-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    }
+  }
+
+  function initProductSwatches() {
+    const swatches = document.querySelectorAll('.swatch-item');
+    swatches.forEach(swatch => {
+      swatch.addEventListener('click', function(e) {
+        e.preventDefault();
+        const newImageUrl = this.getAttribute('data-variant-img');
+        const card = this.closest('.product-card');
+        const mainImage = card.querySelector('.main-product-image');
+
+        if (newImageUrl && mainImage) {
+          mainImage.src = newImageUrl;
+        }
+
+        card.querySelectorAll('.swatch-item').forEach(s => s.classList.remove('active'));
+        this.classList.add('active');
+      });
+    });
+  }
+
+  function updateGrid(url) {
+    const grid = document.getElementById('ProductGridContainer');
+    if (!grid) return;
+    grid.style.opacity = '0.3';
+
+    fetch(url)
+      .then(r => r.text())
+      .then(html => {
+        const doc = new DOMParser().parseFromString(html, 'text/html');
+        const newGridContent = doc.getElementById('ProductGridContainer');
+        if (newGridContent) grid.innerHTML = newGridContent.innerHTML;
+        
+        grid.style.opacity = '1';
+        window.history.pushState({}, '', url);
+        initProductSwatches();
+      })
+      .catch(err => console.error('Error:', err));
+  }
+</script>
+
+{% schema %}
+{
+  "name": "Tactical Collection Main",
+  "settings": [
+    { "type": "color", "id": "neon_color", "label": "Neon Accent", "default": "#D5FE3E" },
+    { "type": "range", "id": "products_per_page", "min": 50, "max": 1600, "step": 50, "label": "Products Per Page", "default": 50 },
+    { "type": "range", "id": "padding_top_desktop","label": "Desktop Top Padding", "min": 0, "max": 100, "step": 5, "default": 40 },
+    { "type": "range", "id": "padding_bottom_desktop","label": "Desktop Bottom Padding", "min": 0, "max": 100, "step": 5, "default": 40 }
+  ]
+}
+{% endschema %}
