@@ -1,0 +1,1 @@
+# custom-shopify-collection-grid
